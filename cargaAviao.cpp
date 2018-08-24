@@ -5,16 +5,19 @@
 
 using namespace std;
 
-struct parada {
-	double latitude, longitude, carga = 0;
-
-	bool operator<(const parada& l, const parada& r){
-		return l.latitude > r.latitude ? true : false;
-	}
+class Parada {
+	public:
+		double latitude, longitude, carga;
+	
+		bool operator>(const Parada& r){
+			return this->latitude > r.latitude ? true : false;
+		}
 };
 
+// std::swap()
+
 template <class T>
-void swap(T& x,T& y)
+void myswap(T& x,T& y)
 {
      T temp;
      temp=x;
@@ -22,35 +25,27 @@ void swap(T& x,T& y)
      y=temp;
 }
 
-void ordena(parada &registro){
-	//pega o valor do meio e compara com os outros dois;
-	if(registro[0]>registro[1]) swap(registro[0], registro[1]);
-		if else(registro[1]>registro[2]) {
-			swap(registro[1], registro[2]);
-			return ;
-		}
-	if(registro[1]>registro[2]) swap(registro[1], registro[2]);
-		if else(registro[0]>registro[1]) {
-			swap(registro[0], registro[1]);
-			return ;
-		}
-
-}
 int main(int argc, char const *argv[]) {
 
-	std::vector<parada> registro (3);
+	std::vector<Parada> registro (3);
 	double carga_final = 0;
 
-	for (int i = 0; i < 3; ++i) {
+	for (int i = 0; i < 3; ++i)	{
 		cout << "digite a latitude, longitude e carga com sinal." << endl;
 		cin >> registro[i].latitude >> registro[i].longitude >> registro[i].carga;
-		carga_final += registro[i].carga;
 	}
-	//QuickSort(registro);
-	ordena(registro);
-	for (int i = 0; i < 3; ++i){
+	for (int i = 0; i < registro.size() - 1; ++i)	{
+		for (int j = i; j < registro.size(); ++j)	{
+			if(registro[i].operator>(registro[i])==false){
+				myswap(registro[i], registro[j]);
+			}
+		}
+	}
 
-		cout << "latitude = " << registro[i].latitude << "\tlongitude = " << registro[i].longitude << endl;
+	for (int i = 0; i < registro.size(); ++i){
+		cout << "latitude = " << registro[i].latitude << "\tlongitude = " << registro[i].longitude;
+		cout << "\tcarga = " << registro[i].carga << endl;
+		carga_final += registro[i].carga;
 	}
 	cout << "carga final = " << carga_final << endl;
 
