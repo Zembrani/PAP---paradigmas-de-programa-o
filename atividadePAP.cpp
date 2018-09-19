@@ -14,6 +14,11 @@
   um tempo constante. Use um container STL para isso.
 
 4) Crie operações na classe frota: vender, comprar, atribuirMotorista.
+
+
+Trabalho ainda não esta rodando, 
+No momento de adicionar os dados a lista ocorreu algum erro com a classe carro.
+
 */
 
 #include <iostream>
@@ -24,36 +29,54 @@ using namespace std;
 
 class Veiculo {
 private:
-  string placa;
+	string placa;
 
 public:
-  string cor, modelo, marca, condutor;
-  int ano;
-  enum tipoVeiculo {carro, moto};
-  Veiculo (void);
-  virtual ~Veiculo ();
+	string cor, modelo, marca, condutor;
+	int ano;
+	enum tipoVeiculo {carro, moto};
+
+	Veiculo (string _cor, string _modelo, string _marca, string _condutor, int _ano);
+	virtual ~Veiculo ();
+
+	void setPlaca(string novaPlaca) {
+		placa = novaPlaca;
+	}
+	string getPlaca(string novaPlaca) {
+		return placa;
+	}
 };
+
+Veiculo::Veiculo (string _cor, string _modelo, string _marca, string _condutor, int _ano){
+	cor = _cor;
+	modelo = _modelo;
+	marca = _marca;
+	condutor = _condutor;
+	ano = _ano;
+}
 
 class Carro : public Veiculo  {
 private:
 
 public:
-  virtual int qtdRodas() {
-    return 4;
-  }
-  Carro (void);
-  virtual ~Carro ();
+	virtual int qtdRodas() {
+		return 4;
+	}
+	Carro(string _cor, string _modelo, string _marca, string _condutor, int _ano) {
+		Veiculo::Veiculo(_cor, _modelo, _marca, _condutor,_ano);
+	}
+	virtual ~Carro ();
 };
 
 class Moto : public Veiculo {
 private:
 
 public:
-  virtual int qtdRodas() {
-    return 2;
-  }
-  Moto (void);
-  virtual ~Moto ();
+	virtual int qtdRodas() {
+		return 2;
+	}
+	Moto (void);
+	virtual ~Moto ();
 };
 
 class Frota {
@@ -61,15 +84,41 @@ private:
 
 public:
   // void agrupaFrota(list<Veiculo*> *frota);
-  string find(list<Veiculo*> *frota, string placaSolicitada);
+	template<class InputIterator, class T>
+	InputIterator find(InputIterator first, InputIterator last, const T& val);
 
-  void agrupaFrota(list<Veiculo*> *frota){
-    // colocar singleton
-  }
-  Frota ();
-  virtual ~Frota ();
+	void agrupaFrota(list<Veiculo*> *frota){
+    // colocar singleton 
+	}
+
+
+	Frota ();
+	virtual ~Frota ();
 };
+
+
+template<class InputIterator, class T>
+InputIterator Frota::find(InputIterator first, InputIterator last, const T& val) {
+	while (first!=last) {
+		if (*first==val) return first;
+		++first;
+	}
+	return last;
+}
+
+void init_frota(list<Veiculo*> *frota){
+  Carro *bmw = new Carro();
+  bmw->modelo = "220";
+  bmw->marca = "BMW";
+  bmw->ano = 2018;
+  bmw->cor = "azul";
+  bmw->setPlaca("1234 ABC");
+  
+  frota->push_back(bmw);
+}
+
 int main() {
-  list<Veiculo*> frota;
+	list<Veiculo*> frota;
+	init_frota(&frota);
 
 }

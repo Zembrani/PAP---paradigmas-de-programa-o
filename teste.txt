@@ -1,3 +1,25 @@
-5 4 3
-4 3 2
-3 2 1
+  Moto* biz = new Moto();
+  biz->modelo = "biz";
+  biz->ano = 2010;
+  biz->marca = "honda";
+  biz->cor = "amarelo";
+  biz->placa = "765 GFD";
+
+  colecao->push_back(biz);
+
+  carro* fusca = new carro();
+  fusca->modelo = "fusca";
+  fusca->ano = 1900;
+  fusca->marca = "volkswagem";
+  fusca->cor = "vermelho";
+  fusca->placa = "1432 DCV";
+
+  Moto* cg = new Moto();
+  cg->modelo = "cg";
+  cg->ano = 2010;
+  cg->marca = "honda";
+  cg->cor = "ROSA";
+  cg->placa = "132 MDE";
+
+  colecao->push_back(cg);
+  colecao->push_back(fusca);
