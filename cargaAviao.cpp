@@ -34,7 +34,7 @@ int main(int argc, char const *argv[]) {
 		cout << "digite a latitude, longitude e carga com sinal." << endl;
 		cin >> registro[i].latitude >> registro[i].longitude >> registro[i].carga;
 	}
-	for (int i = 0; i < registro.size() - 1; ++i)	{
+	for (int i = 0; i < registro.size() - 1; ++i)	{ //bubble sort para ordenação
 		for (int j = i; j < registro.size(); ++j)	{
 			if(registro[i].operator>(registro[i])==false){
 				myswap(registro[i], registro[j]);
