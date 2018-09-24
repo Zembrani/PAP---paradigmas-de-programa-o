@@ -73,6 +73,9 @@ class Moto(Veiculo):
         print('Tipo = ', self.tipo)
         super(Moto, self).mostraAttPai()
 
+    def alteraCondutorVar(self, condutor):
+        self.condutor = condutor
+
 # ########## CLASSE FROTA ########################
 
 class Frota(object):
@@ -102,7 +105,8 @@ class Frota(object):
                     return 0
                 total += int(i)
             count += 1
-
+        if(count<7):
+            return 0
         return total
 
     def addFrota(self, tipo, cor, placa, modelo, marca, ano, condutor):
@@ -126,13 +130,29 @@ class Frota(object):
         placa = input()
         valorHash = self.valorHash(placa)
         if(valorHash==0):
-            return
+            return 0
         if(valorHash not in self.frota):
             print('ERRO: Placa não consta no banco de dados.')
-            return
+            return 0
         print("\nVeiculo encontrado.\n")
-        self.frota[self.valorHash(placa)].mostraAtt()
+        return valorHash
+
+    def procura(self):
+        valorHash = self.encontrar()
+        if(valorHash == 0):
+            return
+        self.frota[valorHash].mostraAtt()
         print(" ")
+
+    def alteraCondutor(self):
+        valorHash = self.encontrar()
+        if(valorHash == 0):
+            return
+        self.frota[valorHash].mostraAtt()
+        print('Digite o novo condutor:')
+        novoCondutor = input()
+        self.frota[valorHash].alteraCondutorVar(novoCondutor)
+        self.frota[valorHash].mostraAtt()
 
     def comprarVeiculo(self):
         print("Digite os dados para adicionar um veiculo.")
@@ -142,17 +162,34 @@ class Frota(object):
             tipo = input()
             pass
         print("Cor:")
-        cor = 'preto'  #input()
+        cor = input()
         print("Placa:")
-        placa = 'abc1234' #input()
+        placa = input()
+        while(self.valorHash(placa)==0):
+            print('Valor invalido, digite novamente.')
+            placa = input()
         print("Modelo:")
-        modelo = 'preto'# input()
+        modelo = input()
         print("Marca:")
-        marca = 'preto' #input()
+        marca = input()
         print("Ano:")
-        ano = 3000 # int(input())
+        a = input()
+        condicao = True
+        while(condicao):
+            count = 0
+            for i in a:
+                if(ord(i)<48 or ord(i)>57):
+                    print('Valor invalido, digite novamente.')
+                    break
+                else:
+                    count += 1
+            if(count==len(a)):
+                condicao = False
+            else:
+                a = input()
+        ano = int(a)
         print("Condutor:")
-        condutor = 'ey' #input()
+        condutor = input()
         self.addFrota(tipo, cor, placa, modelo, marca, ano, condutor)
 
     def venderVeiculo(self):
@@ -202,15 +239,15 @@ while(True):
     print("5 : Sair\n")
 
     escolha = input()
-    os.system('clear') 
+    os.system('clear')
     if(escolha=='1'):
         f.comprarVeiculo()
     if(escolha=='2'):
         f.venderVeiculo()
     if(escolha=='3'):
-        f.encontrar()
+        f.procura()
     if(escolha=='4'):
-        print("ainda não faz nada")
+        f.alteraCondutor()
     if(escolha=='5'):
         exit()
     escolha = 0
